@@ -6,11 +6,15 @@ import com.lightstreamer.client.Subscription
 import com.lightstreamer.client.SubscriptionListener
 import io.javalin.Javalin
 import org.slf4j.LoggerFactory
+import java.lang.Thread.sleep
+import java.util.Scanner
+import kotlin.system.exitProcess
 
 var value = -1.0F
 var LOG = LoggerFactory.getLogger("ISSNormalizerServer")
 
 fun main() {
+    var scanner = Scanner(System.`in`)
     LOG.info("Starting normalizer server")
     val client = LightstreamerClient("https://push.lightstreamer.com", "ISSLIVE")
     client.connect()
@@ -30,7 +34,17 @@ fun main() {
                 ctx.result(value.toDouble().toString())
             }
         }
-    }.start(7000)
+    }.start("0.0.0.0", 7000);
+    while (true) {
+        var inp = scanner.nextLine();
+        if (inp.lowercase() == "stop" || inp.lowercase() == "exit") {
+            break;
+        }
+        sleep(10)
+    }
+
+    app.stop()
+    exitProcess(0)
 }
 
 class SubListener : SubscriptionListener {
