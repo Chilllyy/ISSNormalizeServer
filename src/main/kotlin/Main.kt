@@ -31,7 +31,8 @@ fun main() {
         config.routes.get("/") { ctx ->
             run {
                 LOG.info("Received Request for value")
-                ctx.result(value.toDouble().toString())
+
+                ctx.json(mapOf("value" to value.toDouble()));
             }
         }
     }.start("0.0.0.0", 7000);
