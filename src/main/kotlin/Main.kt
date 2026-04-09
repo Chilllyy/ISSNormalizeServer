@@ -40,6 +40,11 @@ fun main() {
         if (inp.lowercase() == "stop" || inp.lowercase() == "exit") {
             break;
         }
+        var num = inp.toFloatOrNull()
+        if (num != null) {
+            value = num
+            LOG.info("Changed value to $value")
+        }
         sleep(10)
     }
 
