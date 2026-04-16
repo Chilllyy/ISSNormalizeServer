@@ -1,0 +1,39 @@
+<html>
+<img src="iss.png">
+<b id="display">-1%</b>
+</html>
+
+<style>
+img {
+    image-rendering: pixelated;
+}
+</style>
+
+<script>
+    var value = 0;
+    var display = document.getElementById("display");
+    async function loop() {
+        try {
+            var url = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port;
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            var newValue = data['value'];
+            var newValueInt = parseInt(newValue);
+            value = newValueInt;
+            display.innerHTML = value + "%";
+            console.log("New Value " + newValue);
+        } catch (error) {
+            console.error("Fetch Error: ", error);
+        }
+
+        setTimeout(loop, 30000);
+    }
+
+    loop();
+</script>

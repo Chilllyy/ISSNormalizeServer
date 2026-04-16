@@ -5,6 +5,7 @@ import com.lightstreamer.client.LightstreamerClient
 import com.lightstreamer.client.Subscription
 import com.lightstreamer.client.SubscriptionListener
 import io.javalin.Javalin
+import io.javalin.http.staticfiles.Location
 import org.slf4j.LoggerFactory
 import java.lang.Thread.sleep
 import java.util.Scanner
@@ -35,6 +36,7 @@ fun main() {
                 ctx.json(mapOf("value" to value.toDouble()));
             }
         }
+        config.staticFiles.add("/static", Location.CLASSPATH);
     }.start("0.0.0.0", 7000);
     while (true) {
         var inp = scanner.nextLine();
