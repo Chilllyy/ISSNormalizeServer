@@ -35,7 +35,7 @@ img {
             if (newValueInt !== value) {
                 image.src = "iss_notif.png";
                 favicon.href = "favicon_notif.ico";
-                setTimeout(resetIcon, 30000);
+                setTimeout(resetIcon, 3000);
             }
             value = newValueInt;
             display.innerHTML = value + "%";
@@ -45,7 +45,7 @@ img {
             console.error("Fetch Error: ", error);
         }
 
-        setTimeout(loop, 10000);
+        setTimeout(loop, 30000);
     }
 
     async function resetIcon() {
