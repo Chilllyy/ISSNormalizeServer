@@ -6,16 +6,17 @@ import com.lightstreamer.client.Subscription
 import com.lightstreamer.client.SubscriptionListener
 import io.javalin.Javalin
 import io.javalin.http.staticfiles.Location
+import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.lang.Thread.sleep
 import java.util.Scanner
 import kotlin.system.exitProcess
 
 var value = -1.0F
-var LOG = LoggerFactory.getLogger("ISSNormalizerServer")
+var LOG: Logger = LoggerFactory.getLogger("ISSNormalizerServer")
 
 fun main() {
-    var scanner = Scanner(System.`in`)
+    val scanner = Scanner(System.`in`)
     LOG.info("Starting normalizer server")
     val client = LightstreamerClient("https://push.lightstreamer.com", "ISSLIVE")
     client.connect()
@@ -33,17 +34,17 @@ fun main() {
             run {
                 LOG.info("Received Request for value")
 
-                ctx.json(mapOf("value" to value.toDouble()));
+                ctx.json(mapOf("value" to value.toDouble()))
             }
         }
-        config.staticFiles.add("/static", Location.CLASSPATH);
-    }.start("0.0.0.0", 7000);
+        config.staticFiles.add("/static", Location.CLASSPATH)
+    }.start("0.0.0.0", 7000)
     while (true) {
-        var inp = scanner.nextLine();
+        val inp = scanner.nextLine()
         if (inp.lowercase() == "stop" || inp.lowercase() == "exit") {
-            break;
+            break
         }
-        var num = inp.toFloatOrNull()
+        val num = inp.toFloatOrNull()
         if (num != null) {
             value = num
             LOG.info("Changed value to $value")
@@ -72,7 +73,7 @@ class SubListener : SubscriptionListener {
     }
 
     override fun onItemUpdate(itemUpdate: ItemUpdate) {
-        var newValue = itemUpdate.getValue("Value")?.toFloatOrNull() ?: value
+        val newValue = itemUpdate.getValue("Value")?.toFloatOrNull() ?: value
         value = newValue
         LOG.info("Received New Value from Lightstreamer: ${newValue}")
     }

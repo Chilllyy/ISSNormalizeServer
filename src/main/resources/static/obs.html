@@ -1,9 +1,9 @@
-<html>
+<html lang="en">
 <head>
     <title id="title">Urine Tank: -1%</title>
     <link id="favicon" rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
-<img id="image" src="iss.png">
+<img id="image" src="iss.png" alt="ISS Icon">
 <b id="display">-1%</b>
 </html>
 
@@ -32,7 +32,7 @@ img {
 
             var newValue = data['value'];
             var newValueInt = parseInt(newValue);
-            if (newValueInt != value) {
+            if (newValueInt !== value) {
                 image.src = "iss_notif.png";
                 favicon.href = "favicon_notif.ico";
                 setTimeout(resetIcon, 30000);
