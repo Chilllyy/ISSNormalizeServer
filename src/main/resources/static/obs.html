@@ -35,8 +35,7 @@ img {
             if (newValueInt != value) {
                 image.src = "iss_notif.png";
                 favicon.href = "favicon_notif.ico";
-                //TODO Play Sound Bcz Bossman says so
-                setTimeout(resetIcon, 5000);
+                setTimeout(resetIcon, 30000);
             }
             value = newValueInt;
             display.innerHTML = value + "%";
