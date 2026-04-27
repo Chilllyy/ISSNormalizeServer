@@ -108,7 +108,7 @@ fun dbUpdate() = runBlocking {
         while (isActive) {
             LOG.info("Inserting value into DB (" + value + ")")
             updatevalue()
-            delay(60 * 60 * 1000) //Post Datapoint every hour
+            delay(60 * 1000) //Post Datapoint every minute
         }
     }
 }
@@ -150,7 +150,6 @@ class SubListener : SubscriptionListener {
         val newValue = itemUpdate.getValue("Value")?.toFloatOrNull() ?: value
         if (newValue != value) {
             value = newValue;
-            updatevalue();
             LOG.info("Received New Value from Lightstreamer: ${newValue}");
         }
     }
