@@ -84,7 +84,7 @@ fun main() {
         }
         config.staticFiles.add("/static", Location.CLASSPATH)
     }.start("0.0.0.0", 7000)
-    dbUpdate()
+    //dbUpdate()
     while (true) {
         val inp = scanner.nextLine()
         if (inp.lowercase() == "stop" || inp.lowercase() == "exit") {
@@ -150,6 +150,7 @@ class SubListener : SubscriptionListener {
         val newValue = itemUpdate.getValue("Value")?.toFloatOrNull() ?: value
         value = newValue
         LOG.info("Received New Value from Lightstreamer: ${newValue}")
+        updatevalue();
     }
 
     override fun onListenEnd() {
