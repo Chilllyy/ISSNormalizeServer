@@ -149,10 +149,10 @@ class SubListener : SubscriptionListener {
     override fun onItemUpdate(itemUpdate: ItemUpdate) {
         val newValue = itemUpdate.getValue("Value")?.toFloatOrNull() ?: value
         if (newValue != value) {
+            value = newValue;
             updatevalue();
+            LOG.info("Received New Value from Lightstreamer: ${newValue}");
         }
-        value = newValue
-        LOG.info("Received New Value from Lightstreamer: ${newValue}");
     }
 
     override fun onListenEnd() {
