@@ -84,7 +84,7 @@ fun main() {
         }
         config.staticFiles.add("/static", Location.CLASSPATH)
     }.start("0.0.0.0", 7000)
-    //dbUpdate()
+    dbUpdate()
     while (true) {
         val inp = scanner.nextLine()
         if (inp.lowercase() == "stop" || inp.lowercase() == "exit") {
