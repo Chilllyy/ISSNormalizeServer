@@ -28,6 +28,7 @@ import java.util.Scanner
 import kotlin.system.exitProcess
 
 var value = -1.0F
+var lastPost = -1.0F
 var LOG: Logger = LoggerFactory.getLogger("ISSNormalizerServer")
 var connection: Connection? = null
 
@@ -108,7 +109,7 @@ fun dbUpdate() = runBlocking {
         while (isActive) {
             LOG.info("Inserting value into DB (" + value + ")")
             updatevalue()
-            delay(60 * 1000) //Post Datapoint every minute
+            delay(5 * 60 * 1000) //Post Datapoint every 5 minutes
         }
     }
 }
@@ -128,6 +129,7 @@ fun updatevalue() {
     var statement = connection?.createStatement()
     statement?.executeUpdate(query)
     LOG.info("Inserted new value into DB")
+    lastPost = value
 }
 
 class SubListener : SubscriptionListener {
@@ -151,6 +153,9 @@ class SubListener : SubscriptionListener {
         if (newValue != value) {
             value = newValue;
             LOG.info("Received New Value from Lightstreamer: ${newValue}");
+            if (Math.abs(value - lastPost) > 2) {
+                updatevalue() //Update value if it's more than two different
+            }
         }
     }
 
