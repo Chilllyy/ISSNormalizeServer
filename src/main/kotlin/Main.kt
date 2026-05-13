@@ -126,8 +126,10 @@ fun connectToDB(url: String, port: Int, username: String, password: String, data
 
 fun updatevalue() {
     var query = "INSERT INTO issdatamodels (timestamp, value) VALUES (CURRENT_TIMESTAMP(), " + value + ")"
-    var statement = connection?.createStatement()
-    statement?.executeUpdate(query)
+    if (value != -1.0F) {
+        var statement = connection?.createStatement()
+        statement?.executeUpdate(query)
+    }
     LOG.info("Inserted new value into DB")
     lastPost = value
 }
