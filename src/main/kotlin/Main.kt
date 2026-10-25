@@ -5,8 +5,6 @@ import com.lightstreamer.client.ItemUpdate
 import com.lightstreamer.client.LightstreamerClient
 import com.lightstreamer.client.Subscription
 import com.lightstreamer.client.SubscriptionListener
-import io.javalin.Javalin
-import io.javalin.http.staticfiles.Location
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -15,17 +13,13 @@ import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
 import java.lang.Thread.sleep
 import java.sql.Connection
 import java.sql.DriverManager
-import java.sql.ResultSet
-import java.sql.Statement
 import java.util.Scanner
 import kotlin.system.exitProcess
+import kotlin.time.Duration.Companion.milliseconds
 
 var value = -1.0F
 var lastPost = -1.0F
@@ -74,17 +68,6 @@ fun main() {
     sub.addListener(SubListener())
     LOG.info("Added Lightstreamer Subscription")
 
-    val app = Javalin.create { config ->
-        config.http.asyncTimeout = 10000L
-        config.routes.get("/") { ctx ->
-            run {
-                LOG.info("Received Request for value")
-
-                ctx.json(mapOf("value" to value.toDouble()))
-            }
-        }
-        config.staticFiles.add("/static", Location.CLASSPATH)
-    }.start("0.0.0.0", 7000)
     dbUpdate()
     while (true) {
         val inp = scanner.nextLine()
@@ -99,7 +82,6 @@ fun main() {
         sleep(10)
     }
 
-    app.stop()
     exitProcess(0)
 }
 
@@ -109,7 +91,7 @@ fun dbUpdate() = runBlocking {
         while (isActive) {
             LOG.info("Inserting value into DB (" + value + ")")
             updatevalue()
-            delay(5 * 60 * 1000) //Post Datapoint every 5 minutes
+            delay((5 * 60 * 1000).milliseconds) //Post Datapoint every 5 minutes
         }
     }
 }
