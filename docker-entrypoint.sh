@@ -1,5 +1,5 @@
 #!/bin/ash
 
-mv source/ISSServer.jar /server/ISSServer.jar
+mv /source/ISSServer.jar /server/ISSServer.jar
 cd /server/
-java -jar ISSServer.jar
+exec java -jar ISSServer.jar
