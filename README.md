@@ -18,3 +18,4 @@ You can build your own Dockerfile, just make sure you've build the mod and there
 - run the container
 ```docker run -p 7000:7000 chilly/normalizer:latest```
 - the service is now running at http://localhost:7000
+- map a volume to /server in the container to edit config for DB information
